@@ -24,8 +24,30 @@ function draw(){
   fill(64, 192, 64);
   rect(0, groundY, width, height - groundY);
 
-  // BLANK[1] キャラクターの左右移動
+  if(keyIsDown(LEFT_ARROW)){
+    if(keyIsDown("A ".charCodeAt(0))) {
+      x -= 10; 
+    } else{
+      x-=5
+    }
+  }
+  if(keyIsDown(RIGHT_ARROW)){
+    if(keyIsDown(66)){
+      x+=10
+    }else{
+      x+=5
+    }
+  }// BLANK[1] キャラクターの左右移動
 
+  vy += g;
+  if(y> groundY-size/2){
+    vy =0
+  } 
+    if(y>groundY-size/2){
+      if(keyIsDown(" ".charCodeAt(0))){
+        vy-=15
+      }
+    }
   // BLANK[2] 重力とジャンプ
 
   // 速くなりすぎないように制限
