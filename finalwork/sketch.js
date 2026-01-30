@@ -30,12 +30,12 @@ function draw() {
   if (!gameOver) {
     score++;
 
-  
+    // 難易度アップ
     if (frameCount % 300 === 0) {
       enemySpeed += 0.5;
     }
 
-    
+    // 敵生成
     if (frameCount % 60 === 0) {
       let type = int(random(3)); // 0,1,2
       enemies.push({
@@ -48,12 +48,12 @@ function draw() {
       });
     }
 
-    
+    // 敵処理
     for (let i = enemies.length - 1; i >= 0; i--) {
       moveEnemy(enemies[i]);
       drawEnemy(enemies[i]);
 
-      
+      // プレイヤー衝突
       if (hitCheck(player, enemies[i])) {
         life--;
         enemies.splice(i, 1);
@@ -61,7 +61,7 @@ function draw() {
       }
     }
 
-    
+    // 弾処理
     for (let i = bullets.length - 1; i >= 0; i--) {
       moveBullet(bullets[i]);
       fill(0);
@@ -77,16 +77,16 @@ function draw() {
       }
     }
 
-    
+    // プレイヤー操作
     if (keyIsDown(LEFT_ARROW)) player.x -= 5;
     if (keyIsDown(RIGHT_ARROW)) player.x += 5;
   }
 
-  
+  // プレイヤー表示
   fill(0, 0, 255);
   ellipse(player.x, player.y, player.r * 2);
 
-
+  // UI
   fill(0);
   textSize(16);
   text("Score: " + score, 10, 20);
@@ -99,42 +99,42 @@ function draw() {
   }
 }
 
-
+// 弾発射
 function keyPressed() {
   if (key === " ") {
     bullets.push({ x: player.x, y: player.y, r: 5 });
   }
 }
 
-
+// 敵移動（タイプ別）
 function moveEnemy(e) {
   e.y += e.speed;
 
-  
+  // タイプ2は左右に動く
   if (e.type === 2) {
     e.x += e.dx;
   }
 }
 
-
+// 敵描画（タイプ別）
 function drawEnemy(e) {
   if (e.type === 0) {
-    fill(255, 0, 0); 
+    fill(255, 0, 0); // ノーマル
   } else if (e.type === 1) {
-    fill(0, 255, 0); 
+    fill(0, 255, 0); // 速い敵
     e.y += 2;
   } else if (e.type === 2) {
-    fill(150, 0, 150); 
+    fill(150, 0, 150); // ジグザグ
   }
   ellipse(e.x, e.y, e.r * 2);
 }
 
-
+// 弾移動
 function moveBullet(b) {
   b.y -= 7;
 }
 
-
+// 当たり判定
 function hitCheck(a, b) {
   let d = dist(a.x, a.y, b.x, b.y);
   return d < a.r + b.r;
